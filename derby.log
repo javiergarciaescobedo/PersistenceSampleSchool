@@ -1,13 +1,13 @@
 ----------------------------------------------------------------
-Tue Apr 28 13:06:01 CEST 2015:
- Iniciando instancia a816c00e-014c-ffb4-7d98-0000047f46d8 de Derby, versión The Apache Software Foundation - Apache Derby - 10.10.1.3 - (1557168): 
-en el directorio de base de datos C:\Users\Javier\Documents\NetBeansProjects\PersistenceSampleSchool\School con el cargador de clases sun.misc.Launcher$AppClassLoader@6f94fa3e
-Cargado desde file:/C:/Program%20Files/Java/jdk1.8.0_05/db/lib/derby.jar
+Wed Apr 29 22:25:57 CEST 2015:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-014d-06db-7c77-00000c329fc0 
+on database directory /Users/javier/Desktop/PersistenceSampleSchool/School with class loader sun.misc.Launcher$AppClassLoader@2c7b84de 
+Loaded from file:/Applications/NetBeans/glassfish-4.1/javadb/lib/derby.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_05-b13
-user.dir=C:\Users\Javier\Documents\NetBeansProjects\PersistenceSampleSchool
-os.name=Windows 8.1
-os.arch=amd64
-os.version=6.3
+java.runtime.version=1.8.0_31-b13
+user.dir=/Users/javier/Desktop/PersistenceSampleSchool
+os.name=Mac OS X
+os.arch=x86_64
+os.version=10.9.5
 derby.system.home=null
-Cargador de clases de base de datos iniciado - derby.database.classpath=''
+Database Class Loader started - derby.database.classpath=''
