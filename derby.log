@@ -1,11 +1,11 @@
 ----------------------------------------------------------------
-Wed Apr 29 22:25:57 CEST 2015:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-014d-06db-7c77-00000c329fc0 
-on database directory /Users/javier/Desktop/PersistenceSampleSchool/School with class loader sun.misc.Launcher$AppClassLoader@2c7b84de 
+Thu Apr 30 09:49:03 CEST 2015:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-014d-094c-e17b-00000befe8a8 
+on database directory /Users/javier/Documents/IES_14-15/Programacion/Tema 8/PersistenceSampleSchool/School with class loader sun.misc.Launcher$AppClassLoader@2c7b84de 
 Loaded from file:/Applications/NetBeans/glassfish-4.1/javadb/lib/derby.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.8.0_31-b13
-user.dir=/Users/javier/Desktop/PersistenceSampleSchool
+user.dir=/Users/javier/Documents/IES_14-15/Programacion/Tema 8/PersistenceSampleSchool
 os.name=Mac OS X
 os.arch=x86_64
 os.version=10.9.5

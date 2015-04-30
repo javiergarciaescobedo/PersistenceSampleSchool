@@ -1,34 +1,33 @@
-package es.javiergarciaescobedo.persistencesampleschool.view;
+package persistencesampleschool.model;
 
-import es.javiergarciaescobedo.persistencesampleschool.model.ClassGroups;
-import es.javiergarciaescobedo.persistencesampleschool.model.ClassGroup;
-import javax.swing.JOptionPane;
+import persistencesampleschool.data.SchoolGroups;
+import persistencesampleschool.data.SchoolGroup;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 
-public class ClassGroupsTableModel extends AbstractTableModel {
+public class SchoolGroupsTableModel extends AbstractTableModel {
 
-    private ClassGroups classGroups;
-    private boolean dataChanged;
+    private SchoolGroups schoolGroups;
+    private boolean schoolGroupSavePending;
 
-    public ClassGroupsTableModel(ClassGroups classGroups) {
-        this.classGroups = classGroups;
-        this.addTableModelListener(new ClassGroupsTableModelListener());
-        this.dataChanged = false;
+    public SchoolGroupsTableModel(SchoolGroups classGroups) {
+        this.schoolGroups = classGroups;
+        this.addTableModelListener(new SchoolGroupsTableModelListener());
+        this.schoolGroupSavePending = false;
     }
 
-    public boolean isDataChanged() {
-        return dataChanged;
+    public boolean isSchoolGroupSavePending() {
+        return schoolGroupSavePending;
     }
 
-    public void setDataChanged(boolean dataChanged) {
-        this.dataChanged = dataChanged;
+    public void setSchoolGroupSavePending(boolean schoolGroupSavePending) {
+        this.schoolGroupSavePending = schoolGroupSavePending;
     }
     
     @Override
     public int getRowCount() {
-        return classGroups.getClassGroupList().size();
+        return schoolGroups.getSchoolGroupList().size();
     }
 
     @Override
@@ -38,7 +37,7 @@ public class ClassGroupsTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        ClassGroup classGroup = classGroups.getClassGroupList().get(rowIndex);
+        SchoolGroup classGroup = schoolGroups.getSchoolGroupList().get(rowIndex);
         switch(columnIndex) {
             case 0:
                 return classGroup.getName();
@@ -68,7 +67,7 @@ public class ClassGroupsTableModel extends AbstractTableModel {
     
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        ClassGroup classGroup = classGroups.getClassGroupList().get(rowIndex);
+        SchoolGroup classGroup = schoolGroups.getSchoolGroupList().get(rowIndex);
         switch(columnIndex) {
             case 0:
                 classGroup.setName((String)aValue);
@@ -77,14 +76,14 @@ public class ClassGroupsTableModel extends AbstractTableModel {
                 classGroup.setCapacity(Integer.valueOf(String.valueOf(aValue)));
                 break;
         }     
-        dataChanged = true;
+        schoolGroupSavePending = true;
     }
     
-    private class ClassGroupsTableModelListener implements TableModelListener {
+    private class SchoolGroupsTableModelListener implements TableModelListener {
 
         @Override
         public void tableChanged(TableModelEvent e) {
-            setDataChanged(true);
+            schoolGroupSavePending = true;
         }
         
     }

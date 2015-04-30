@@ -1,4 +1,4 @@
-package es.javiergarciaescobedo.persistencesampleschool.view;
+package persistencesampleschool.controller;
 
 import java.awt.Color;
 import javax.swing.BorderFactory;
@@ -6,11 +6,11 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-public class StringCellEditor extends DefaultCellEditor {
+public class SchoolStringCellEditor extends DefaultCellEditor {
     
     private JTextField jTextField;
 
-    public StringCellEditor(JTextField jTextField) {
+    public SchoolStringCellEditor(JTextField jTextField) {
         super(jTextField);
         this.jTextField = jTextField;
         // Set a border for JTextfield component. Otherwise, it has a big margin
