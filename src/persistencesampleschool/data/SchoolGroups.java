@@ -10,8 +10,8 @@ public class SchoolGroups {
         return schoolGroupList;
     }            
 
-    public void setSchoolGroupList(List<SchoolGroup> classGroupList) {
-        this.schoolGroupList = classGroupList;
+    public void setSchoolGroupList(List<SchoolGroup> schoolGroupList) {
+        this.schoolGroupList = schoolGroupList;
     }
     
 }

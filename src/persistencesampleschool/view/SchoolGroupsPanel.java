@@ -10,8 +10,6 @@ import javax.persistence.Query;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import persistencesampleschool.data.SchoolGroups;
 import persistencesampleschool.data.SchoolGroup;
 import persistencesampleschool.resources.SchoolValues;
@@ -52,10 +50,10 @@ public class SchoolGroupsPanel extends javax.swing.JPanel {
 
         // Model for JTable, assigning classgroups content
         schoolGroupsTableModel = new SchoolGroupsTableModel(schoolGroups);
-        jTableClassGroups.setModel(schoolGroupsTableModel);  
+        jTableSchoolGroups.setModel(schoolGroupsTableModel);  
 
         // Allow only one row selected
-        jTableClassGroups.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);        
+        jTableSchoolGroups.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);        
 
         setEditorsJTableSchoolGroups();
     }
@@ -64,14 +62,18 @@ public class SchoolGroupsPanel extends javax.swing.JPanel {
         // Cell editor for class group name
         JTextField jTextFieldClassGroupName = new JTextField();
         jTextFieldClassGroupName.setColumns(SchoolValues.CLASS_GROUP_NAME_LENGTH);
-        jTableClassGroups.getColumnModel().getColumn(0).setCellEditor(new SchoolStringCellEditor(jTextFieldClassGroupName));  
+        jTableSchoolGroups.getColumnModel().getColumn(0).setCellEditor(new SchoolStringCellEditor(jTextFieldClassGroupName));  
 
         // Cell editor for class group capacity
-        jTableClassGroups.getColumnModel().getColumn(1).setCellEditor(new SchoolIntegerCellEditor(new JTextField()));  
+        jTableSchoolGroups.getColumnModel().getColumn(1).setCellEditor(new SchoolIntegerCellEditor(new JTextField()));  
     }
 
     public boolean isSchoolGroupSavePending() {
-        return schoolGroupsTableModel.isSchoolGroupSavePending();
+        if(schoolGroupsTableModel != null) {
+            return schoolGroupsTableModel.isSchoolGroupSavePending();
+        } else {
+            return false;
+        }
     }
     
     /**
@@ -84,7 +86,7 @@ public class SchoolGroupsPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableClassGroups = new javax.swing.JTable();
+        jTableSchoolGroups = new javax.swing.JTable();
         jToolBar1 = new javax.swing.JToolBar();
         jButtonCommit = new javax.swing.JButton();
         jButtonRollback = new javax.swing.JButton();
@@ -92,7 +94,7 @@ public class SchoolGroupsPanel extends javax.swing.JPanel {
         jButtonNewSchoolGroup = new javax.swing.JButton();
         jButtonDeleteSchoolGroup = new javax.swing.JButton();
 
-        jTableClassGroups.setModel(new javax.swing.table.DefaultTableModel(
+        jTableSchoolGroups.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -103,7 +105,7 @@ public class SchoolGroupsPanel extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTableClassGroups);
+        jScrollPane1.setViewportView(jTableSchoolGroups);
 
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
@@ -112,7 +114,6 @@ public class SchoolGroupsPanel extends javax.swing.JPanel {
         jButtonCommit.setToolTipText("Guardar");
         jButtonCommit.setFocusable(false);
         jButtonCommit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButtonCommit.setSize(new java.awt.Dimension(44, 36));
         jButtonCommit.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButtonCommit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -128,7 +129,6 @@ public class SchoolGroupsPanel extends javax.swing.JPanel {
         jButtonRollback.setMaximumSize(new java.awt.Dimension(44, 36));
         jButtonRollback.setMinimumSize(new java.awt.Dimension(44, 36));
         jButtonRollback.setPreferredSize(new java.awt.Dimension(44, 36));
-        jButtonRollback.setSize(new java.awt.Dimension(44, 36));
         jButtonRollback.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButtonRollback.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -142,7 +142,6 @@ public class SchoolGroupsPanel extends javax.swing.JPanel {
         jButtonNewSchoolGroup.setToolTipText("Añadir grupo");
         jButtonNewSchoolGroup.setFocusable(false);
         jButtonNewSchoolGroup.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButtonNewSchoolGroup.setSize(new java.awt.Dimension(44, 36));
         jButtonNewSchoolGroup.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButtonNewSchoolGroup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -158,7 +157,6 @@ public class SchoolGroupsPanel extends javax.swing.JPanel {
         jButtonDeleteSchoolGroup.setMaximumSize(new java.awt.Dimension(44, 36));
         jButtonDeleteSchoolGroup.setMinimumSize(new java.awt.Dimension(44, 36));
         jButtonDeleteSchoolGroup.setPreferredSize(new java.awt.Dimension(44, 36));
-        jButtonDeleteSchoolGroup.setSize(new java.awt.Dimension(44, 36));
         jButtonDeleteSchoolGroup.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButtonDeleteSchoolGroup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -201,18 +199,18 @@ public class SchoolGroupsPanel extends javax.swing.JPanel {
         // Add a row in last position of JTable
         int newRowIndex = schoolGroups.getSchoolGroupList().size()-1;
         schoolGroupsTableModel.fireTableRowsInserted(newRowIndex, newRowIndex);
-        jTableClassGroups.setRowSelectionInterval(newRowIndex, newRowIndex);
+        jTableSchoolGroups.setRowSelectionInterval(newRowIndex, newRowIndex);
     }//GEN-LAST:event_jButtonNewSchoolGroupActionPerformed
 
     private void jButtonDeleteSchoolGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteSchoolGroupActionPerformed
         // Get index of selected row
-        int rowSelectedIndex = jTableClassGroups.getSelectedRow();
+        int rowSelectedIndex = jTableSchoolGroups.getSelectedRow();
         if(rowSelectedIndex < 0) {
             JOptionPane.showMessageDialog(this, "Debe seleccionar el grupo a suprimir");
         } else {
             // Convert row index in table view to index row in list,
             //      because order in table could be different to order in list
-            int selectedClassGroupIndex = jTableClassGroups.convertRowIndexToModel(rowSelectedIndex);
+            int selectedClassGroupIndex = jTableSchoolGroups.convertRowIndexToModel(rowSelectedIndex);
             // Get class group from this index position in list
             SchoolGroup classGroup = schoolGroups.getSchoolGroupList().get(selectedClassGroupIndex);
             // Prepare class group to be removed from database
@@ -251,7 +249,7 @@ public class SchoolGroupsPanel extends javax.swing.JPanel {
     private javax.swing.JButton jButtonRollback;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar.Separator jSeparator1;
-    private javax.swing.JTable jTableClassGroups;
+    private javax.swing.JTable jTableSchoolGroups;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 }

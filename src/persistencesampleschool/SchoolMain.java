@@ -18,12 +18,12 @@ public class SchoolMain extends javax.swing.JFrame {
         // Center JFrame
         setLocationRelativeTo(null); 
         // Control window closing on formWindowClosing event
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+//        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         
         // Connection with database using an entity manager
         entityManager = Persistence.createEntityManagerFactory("PersistenceSampleSchoolPU").createEntityManager();        
         // Send entity manager to panels
-        schoolGroupsPanel1.setEntityManager(entityManager);
+        schoolStudentsPanel2.setEntityManager(entityManager);
     }
 
     /**
@@ -35,9 +35,7 @@ public class SchoolMain extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
-        schoolGroupsPanel1 = new persistencesampleschool.view.SchoolGroupsPanel();
+        schoolStudentsPanel2 = new persistencesampleschool.view.SchoolStudentsPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -46,29 +44,15 @@ public class SchoolMain extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 515, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 313, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Estudiantes", jPanel1);
-        jTabbedPane1.addTab("Grupos", schoolGroupsPanel1);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(schoolStudentsPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(schoolStudentsPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE)
         );
 
         pack();
@@ -76,17 +60,17 @@ public class SchoolMain extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // Only allow closing if data changes has been saved or canceled
-        if(schoolGroupsPanel1.isSchoolGroupSavePending()) {
-            JOptionPane.showMessageDialog(this, "Hay cambios sin guardar en los grupos");
-            // Show school groups panel
-            jTabbedPane1.setSelectedIndex(1);
-        } else {
-            // Close connection
-            entityManager.close();
-            // Close Window
-            setVisible(false);
-            dispose();
-        }
+//        if(schoolGroupsPanel1.isSchoolGroupSavePending()) {
+//            JOptionPane.showMessageDialog(this, "Hay cambios sin guardar en los grupos");
+//            // Show school groups panel
+//            jTabbedPane1.setSelectedIndex(1);
+//        } else {
+//            // Close connection
+//            entityManager.close();
+//            // Close Window
+//            setVisible(false);
+//            dispose();
+//        }
     }//GEN-LAST:event_formWindowClosing
 
     /**
@@ -140,8 +124,6 @@ public class SchoolMain extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private persistencesampleschool.view.SchoolGroupsPanel schoolGroupsPanel1;
+    private persistencesampleschool.view.SchoolStudentsPanel schoolStudentsPanel2;
     // End of variables declaration//GEN-END:variables
 }

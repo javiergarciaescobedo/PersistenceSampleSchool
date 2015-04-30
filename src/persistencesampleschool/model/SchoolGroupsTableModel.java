@@ -11,8 +11,8 @@ public class SchoolGroupsTableModel extends AbstractTableModel {
     private SchoolGroups schoolGroups;
     private boolean schoolGroupSavePending;
 
-    public SchoolGroupsTableModel(SchoolGroups classGroups) {
-        this.schoolGroups = classGroups;
+    public SchoolGroupsTableModel(SchoolGroups schoolGroups) {
+        this.schoolGroups = schoolGroups;
         this.addTableModelListener(new SchoolGroupsTableModelListener());
         this.schoolGroupSavePending = false;
     }
