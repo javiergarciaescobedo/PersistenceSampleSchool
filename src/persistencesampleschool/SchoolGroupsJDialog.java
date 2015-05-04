@@ -1,18 +1,23 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package persistencesampleschool;
 
-import persistencesampleschool.view.SchoolGroupsPanel;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import persistencesampleschool.controller.SchoolIntegerCellEditor;
+import persistencesampleschool.controller.SchoolStringCellEditor;
+import persistencesampleschool.data.SchoolGroup;
+import persistencesampleschool.data.SchoolGroups;
+import persistencesampleschool.model.SchoolGroupsTableModel;
+import persistencesampleschool.resources.SchoolValues;
 
-/**
- *
- * @author Javier García Escobedo (javiergarciaescobedo.es)
- */
 public class SchoolGroupsJDialog extends javax.swing.JDialog {
 
+    private EntityManager entityManager;
+    private SchoolGroups schoolGroups;
+    private SchoolGroupsTableModel schoolGroupsTableModel;
+   
     /**
      * Creates new form SchoolGroupsJDialog
      */
@@ -20,10 +25,49 @@ public class SchoolGroupsJDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(parent);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
     }
 
-    public SchoolGroupsPanel getSchoolGroupsPanel1() {
-        return schoolGroupsPanel1;
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+        entityManager.getTransaction().begin();
+        resetJTableSchoolGroups();
+    }
+
+    // Set configuration and data content for class groups jTable
+    private void resetJTableSchoolGroups() {
+        schoolGroups = new SchoolGroups();
+
+        // Load data from database
+        Query query = entityManager.createNamedQuery("SchoolGroup.findAll");
+        schoolGroups.setSchoolGroupList(query.getResultList());
+
+        // Model for JTable, assigning classgroups content
+        schoolGroupsTableModel = new SchoolGroupsTableModel(schoolGroups);
+        jTableSchoolGroups.setModel(schoolGroupsTableModel);  
+
+        // Allow only one row selected
+        jTableSchoolGroups.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);        
+
+        setEditorsJTableSchoolGroups();
+    }
+    
+    public void setEditorsJTableSchoolGroups() {
+        // Cell editor for class group name
+        JTextField jTextFieldClassGroupName = new JTextField();
+        jTextFieldClassGroupName.setColumns(SchoolValues.CLASS_GROUP_NAME_LENGTH);
+        jTableSchoolGroups.getColumnModel().getColumn(0).setCellEditor(new SchoolStringCellEditor(jTextFieldClassGroupName));  
+
+        // Cell editor for class group capacity
+        jTableSchoolGroups.getColumnModel().getColumn(1).setCellEditor(new SchoolIntegerCellEditor(new JTextField()));  
+    }
+
+    public boolean isSchoolGroupSavePending() {
+        if(schoolGroupsTableModel != null) {
+            return schoolGroupsTableModel.isSchoolGroupSavePending();
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -35,27 +79,207 @@ public class SchoolGroupsJDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        schoolGroupsPanel1 = new persistencesampleschool.view.SchoolGroupsPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTableSchoolGroups = new javax.swing.JTable();
+        jToolBar1 = new javax.swing.JToolBar();
+        jSeparator1 = new javax.swing.JToolBar.Separator();
+        jButtonNewSchoolGroup = new javax.swing.JButton();
+        jButtonDeleteSchoolGroup = new javax.swing.JButton();
+        jButtonCommit = new javax.swing.JButton();
+        jButtonRollback = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Mantenimiento de grupos");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
+
+        jTableSchoolGroups.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTableSchoolGroups);
+
+        jToolBar1.setFloatable(false);
+        jToolBar1.setRollover(true);
+        jToolBar1.add(jSeparator1);
+
+        jButtonNewSchoolGroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/persistencesampleschool/resources/add.png"))); // NOI18N
+        jButtonNewSchoolGroup.setToolTipText("Añadir grupo");
+        jButtonNewSchoolGroup.setFocusable(false);
+        jButtonNewSchoolGroup.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButtonNewSchoolGroup.setMaximumSize(new java.awt.Dimension(40, 40));
+        jButtonNewSchoolGroup.setMinimumSize(new java.awt.Dimension(40, 40));
+        jButtonNewSchoolGroup.setPreferredSize(new java.awt.Dimension(40, 40));
+        jButtonNewSchoolGroup.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButtonNewSchoolGroup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonNewSchoolGroupActionPerformed(evt);
+            }
+        });
+
+        jButtonDeleteSchoolGroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/persistencesampleschool/resources/remove.png"))); // NOI18N
+        jButtonDeleteSchoolGroup.setToolTipText("Suprimir grupo");
+        jButtonDeleteSchoolGroup.setFocusable(false);
+        jButtonDeleteSchoolGroup.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButtonDeleteSchoolGroup.setMaximumSize(new java.awt.Dimension(40, 40));
+        jButtonDeleteSchoolGroup.setMinimumSize(new java.awt.Dimension(40, 40));
+        jButtonDeleteSchoolGroup.setPreferredSize(new java.awt.Dimension(40, 40));
+        jButtonDeleteSchoolGroup.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButtonDeleteSchoolGroup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeleteSchoolGroupActionPerformed(evt);
+            }
+        });
+
+        jButtonCommit.setText("Aceptar");
+        jButtonCommit.setToolTipText("Guardar");
+        jButtonCommit.setFocusable(false);
+        jButtonCommit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButtonCommit.setMaximumSize(null);
+        jButtonCommit.setMinimumSize(null);
+        jButtonCommit.setPreferredSize(null);
+        jButtonCommit.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButtonCommit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCommitActionPerformed(evt);
+            }
+        });
+
+        jButtonRollback.setText("Cancelar");
+        jButtonRollback.setToolTipText("Deshacer cambios");
+        jButtonRollback.setFocusable(false);
+        jButtonRollback.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButtonRollback.setMaximumSize(null);
+        jButtonRollback.setMinimumSize(null);
+        jButtonRollback.setPreferredSize(null);
+        jButtonRollback.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButtonRollback.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRollbackActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(schoolGroupsPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 94, Short.MAX_VALUE)
+                        .addComponent(jButtonCommit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonRollback, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonNewSchoolGroup, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonDeleteSchoolGroup, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(schoolGroupsPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonNewSchoolGroup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonDeleteSchoolGroup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 148, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonRollback, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonCommit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonCommitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCommitActionPerformed
+        // Ok button pressed. Commit changes to database
+        entityManager.getTransaction().commit();
+        
+        setVisible(false);
+        dispose();
+    }//GEN-LAST:event_jButtonCommitActionPerformed
+
+    private void jButtonRollbackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRollbackActionPerformed
+        // Cancel button pressed. Revert changes
+        entityManager.getTransaction().rollback();
+        
+        setVisible(false);
+        dispose();
+    }//GEN-LAST:event_jButtonRollbackActionPerformed
+
+    private void jButtonNewSchoolGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNewSchoolGroupActionPerformed
+        // Create a new empty school group object
+        SchoolGroup schoolGroup = new SchoolGroup();
+        schoolGroups.getSchoolGroupList().add(schoolGroup);
+
+        // Prepare object for persist
+        entityManager.persist(schoolGroup);
+
+        // Add a row in last position of JTable
+        int newRowIndex = schoolGroups.getSchoolGroupList().size()-1;
+        schoolGroupsTableModel.fireTableRowsInserted(newRowIndex, newRowIndex);
+        jTableSchoolGroups.setRowSelectionInterval(newRowIndex, newRowIndex);
+    }//GEN-LAST:event_jButtonNewSchoolGroupActionPerformed
+
+    private void jButtonDeleteSchoolGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteSchoolGroupActionPerformed
+        // Get index of selected row
+        int rowSelectedIndex = jTableSchoolGroups.getSelectedRow();
+        if(rowSelectedIndex < 0) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar el grupo a suprimir");
+        } else {
+            // Convert row index in table view to index row in list,
+            //      because order in table could be different to order in list
+            int selectedClassGroupIndex = jTableSchoolGroups.convertRowIndexToModel(rowSelectedIndex);
+            // Get class group from this index position in list
+            SchoolGroup classGroup = schoolGroups.getSchoolGroupList().get(selectedClassGroupIndex);
+            
+            if(classGroup.getSchoolStudentCollection().size() > 0) {
+                JOptionPane.showMessageDialog(this, "No se puede eliminar un grupo que tiene estudiantes relacionados");
+            } else {
+                // Prepare class group to be removed from database
+                entityManager.remove(classGroup);
+                // Remove class group from list
+                schoolGroups.getSchoolGroupList().remove(classGroup);
+                // Advise to jtable that a row has been removed from list
+                schoolGroupsTableModel.fireTableRowsDeleted(rowSelectedIndex, rowSelectedIndex);
+            }
+        }
+    }//GEN-LAST:event_jButtonDeleteSchoolGroupActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        int response = JOptionPane.showConfirmDialog(this, "¿Desea guardar los cambios?");
+        switch(response) {
+            case JOptionPane.YES_OPTION:
+                jButtonCommit.doClick();
+                break;
+            case JOptionPane.NO_OPTION:
+                jButtonRollback.doClick();
+                break;
+            case JOptionPane.CANCEL_OPTION:
+                break;                
+        }
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
@@ -100,6 +324,13 @@ public class SchoolGroupsJDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private persistencesampleschool.view.SchoolGroupsPanel schoolGroupsPanel1;
+    private javax.swing.JButton jButtonCommit;
+    private javax.swing.JButton jButtonDeleteSchoolGroup;
+    private javax.swing.JButton jButtonNewSchoolGroup;
+    private javax.swing.JButton jButtonRollback;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JToolBar.Separator jSeparator1;
+    private javax.swing.JTable jTableSchoolGroups;
+    private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 }
